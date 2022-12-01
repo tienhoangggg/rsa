@@ -57,7 +57,7 @@ bool Check_miller(X n, int k)
 vector<int> randomOddNum(int bits){
     srand(time(NULL));
     vector<int> _bin(bits, 0);
-    _bin[0] = 1
+    _bin[0] = 1;
     _bin[bits - 1] = 1;
     for (int i = 1; i < bits - 1; ++i){
         _bin[i] = rand() % 2;
