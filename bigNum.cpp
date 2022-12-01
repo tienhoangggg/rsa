@@ -89,6 +89,15 @@ bool number::operator == (number num)
     return true;
 }
 
+bool number::mod2()
+{
+    int r = this->get_value()[this->get_value().length() - 1] - '0';
+    if(r % 2 == 0)
+        return true;
+    else
+        return false;
+}
+
 number number::operator = (number num)
 {
     value = num.get_value();

@@ -17,6 +17,7 @@ public:
     bool operator > (number);
     bool operator <= (number);
     bool operator == (number);
+    bool mod2();
     number operator = (number);
     number operator + (number);
     number operator - (number);

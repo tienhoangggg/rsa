@@ -9,7 +9,7 @@ X pow(X a, X b, X n)
     a = a % n;
     while (b > 0)
     {
-        if (b % 2 == 1)
+        if (!b.mod2())
             result = result * a % n;
         b = b / 2;
         a = a * a % n;
@@ -37,10 +37,10 @@ bool Check_miller(X n, int k)
 {
     if (n < 2)
         return false;
-    if (n % 2 == 0)
+    if (n.mod2())
         return n == 2;
     X s = 0, d = n - 1;
-    while (d % 2 == 0)
+    while (d.mod2())
     {
         s = s + 1;
         d = d / 2;
