@@ -53,3 +53,35 @@ bool Check_miller(X n, int k)
     }
     return true;
 }
+
+vector<int> randomOddNum(int bits){
+    srand(time(NULL));
+    vector<int> _bin(bits, 0);
+    _bin[0] = 1
+    _bin[bits - 1] = 1;
+    for (int i = 1; i < bits - 1; ++i){
+        _bin[i] = rand() % 2;
+    }
+    return _bin;
+}
+
+X binToNum(vector<int> num){
+    X n = 0, pow_2 = 1;
+    for(int i = num.size() - 1; i >= 0; --i){
+        n = n + (pow_2 * num[i]);
+        pow_2 = pow_2 * 2;
+    }
+    return n;
+}
+
+X generateBigPrime(int k, int bits){
+    vector<int> _bin;
+    X _num;
+    while(1){
+        _bin = randomOddNum(bits);
+        _num = binToNum(_bin);
+        if (Check_miller(_num, k))
+            break;
+    }
+    return _num;
+}
