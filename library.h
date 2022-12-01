@@ -1,4 +1,26 @@
+#pragma once
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
-class number;
+
+class number
+{
+private:
+    string value;
+public:
+    number(){value = "";}
+    number(string);
+    number(int);
+    string get_value();
+    bool operator < (number);
+    bool operator > (number);
+    bool operator <= (number);
+    bool operator == (number);
+    number operator = (number);
+    number operator + (number);
+    number operator - (number);
+    number operator * (number);
+    number operator / (number);
+    number operator % (number);
+};
