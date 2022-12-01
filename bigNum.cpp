@@ -4,7 +4,7 @@ class number;
 
 number::number(string val)
 {
-    value = val;    
+    value = val;
 }
 
 number::number(int val)
@@ -17,72 +17,72 @@ string number::get_value()
     return value;
 }
 
-bool number::operator < (number num)
+bool number::operator<(number num)
 {
-    if(value.length() < num.get_value().length())
+    if (value.length() < num.get_value().length())
         return true;
-    else if(value.length() > num.get_value().length())
+    else if (value.length() > num.get_value().length())
         return false;
     else
     {
-        for(int i = 0; i < value.length(); i++)
+        for (int i = 0; i < value.length(); i++)
         {
-            if(value[i] < num.get_value()[i])
+            if (value[i] < num.get_value()[i])
                 return true;
-            else if(value[i] > num.get_value()[i])
+            else if (value[i] > num.get_value()[i])
                 return false;
         }
     }
     return false;
 }
 
-bool number::operator > (number num)
+bool number::operator>(number num)
 {
-    if(value.length() > num.get_value().length())
+    if (value.length() > num.get_value().length())
         return true;
-    else if(value.length() < num.get_value().length())
+    else if (value.length() < num.get_value().length())
         return false;
     else
     {
-        for(int i = 0; i < value.length(); i++)
+        for (int i = 0; i < value.length(); i++)
         {
-            if(value[i] > num.get_value()[i])
+            if (value[i] > num.get_value()[i])
                 return true;
-            else if(value[i] < num.get_value()[i])
+            else if (value[i] < num.get_value()[i])
                 return false;
         }
     }
     return false;
 }
 
-bool number::operator <= (number num)
+bool number::operator<=(number num)
 {
-    if(value.length() < num.get_value().length())
+    if (value.length() < num.get_value().length())
         return true;
-    else if(value.length() > num.get_value().length())
+    else if (value.length() > num.get_value().length())
         return false;
     else
     {
-        for(int i = 0; i < value.length(); i++)
+        for (int i = 0; i < value.length(); i++)
         {
-            if(value[i] < num.get_value()[i])
+            if (value[i] < num.get_value()[i])
                 return true;
-            else if(value[i] > num.get_value()[i])
+            else if (value[i] > num.get_value()[i])
                 return false;
         }
     }
     return true;
 }
 
-bool number::operator == (number num)
+bool number::operator==(number num)
 {
-    if(value.length() != num.get_value().length())
+    if (value.length() != num.get_value().length())
         return false;
     else
     {
-        for(int i = 0; i < value.length(); i++)
+        for (int i = 0; i < value.length(); i++)
         {
-            if(value[i] != num.get_value()[i])
+            if (value[i] != num.get_value()[i])
                 return false;
         }
     }
@@ -92,19 +92,19 @@ bool number::operator == (number num)
 bool number::mod2()
 {
     int r = this->get_value()[this->get_value().length() - 1] - '0';
-    if(r % 2 == 0)
+    if (r % 2 == 0)
         return true;
     else
         return false;
 }
 
-number number::operator = (number num)
+number number::operator=(number num)
 {
     value = num.get_value();
     return *this;
 }
 
-number number:: operator+(number val)
+number number::operator+(number val)
 {
     number result;
     string a = this->value;
@@ -129,7 +129,7 @@ number number:: operator+(number val)
     return result;
 }
 
-number  number:: operator-(number val)
+number number::operator-(number val)
 {
     number result;
     string a = this->value;
@@ -164,7 +164,7 @@ number  number:: operator-(number val)
     return result;
 }
 
-number number:: operator*(number val)
+number number::operator*(number val)
 {
     if (this->value == "0" || val.value == "0")
         return number("0");
@@ -174,7 +174,7 @@ number number:: operator*(number val)
     int carry = 0;
     int n = a.length() - 1;
     int m = b.length() - 1;
-    vector<int> temp(n+m+2, 0);
+    vector<int> temp(n + m + 2, 0);
     for (int i = 0; i <= n; i++)
     {
         for (int j = 0; j <= m; j++)
@@ -194,24 +194,28 @@ number number:: operator*(number val)
     return result;
 }
 
-number number:: operator/(number val)
+number number::operator/(number val)
 {
     number result("0");
     string a = this->value;
     if (a == "0" || val.value == "0" || *this < val)
         return result;
     int n = a.length();
-    int m = val.value.length();
-    int carry = 0;
-    int i,j,k;
-    for (i = 0; (result*10 + (a[i]-'0')) < val; i++)
+    int i, j, k;
+    number temp;
+    temp.value = a[0];
+    for (i = 0; temp < val; i++)
     {
-        result = result * 10 + (a[i]-'0');
+        result = temp;
+        temp.value += a[i + 1];
     }
     vector<int> v(n, 0);
     for (j = i; j < n; j++)
     {
-        result = result * 10 + (a[j]-'0');
+        if (result.value == "0")
+            result.value = a[j];
+        else
+            result.value += a[j];
         for (k = 0; val <= result; k++)
         {
             result = result - val;
@@ -226,23 +230,29 @@ number number:: operator/(number val)
     return result;
 }
 
-number number:: operator%(number val)
+number number::operator%(number val)
 {
     number result("0");
     string a = this->value;
     if (a == "0" || val.value == "0")
         return result;
+    if (*this < val)
+        return *this;
     int n = a.length();
-    int m = val.value.length();
-    int carry = 0;
     int i, j, k;
-    for (i = 0; (result * 10 + (a[i] - '0')) < val; i++)
+    number temp;
+    temp.value = a[0];
+    for (i = 0; temp < val; i++)
     {
-        result = result * 10 + (a[i] - '0');
+        result = temp;
+        temp.value += a[i + 1];
     }
     for (j = i; j < n; j++)
     {
-        result = result * 10 + (a[j] - '0');
+        if (result.value == "0")
+            result.value = a[j];
+        else
+            result.value += a[j];
         for (k = 0; val <= result; k++)
         {
             result = result - val;
