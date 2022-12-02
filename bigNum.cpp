@@ -177,9 +177,10 @@ number number::operator*(number val)
     vector<int> temp(n + m + 2, 0);
     for (int i = 0; i <= n; i++)
     {
+        int temp1 = a[i] - '0';
         for (int j = 0; j <= m; j++)
         {
-            temp[i + j] += (a[i] - '0') * (b[j] - '0');
+            temp[i + j] += temp1 * (b[j] - '0');
         }
     }
     for (int i = n + m; i > 0; i--)
@@ -202,9 +203,10 @@ number number::operator/(number val)
         return result;
     int n = a.length();
     int i, j, k;
+    i = val.get_value().length() - 1;
     number temp;
-    temp.value = a[0];
-    for (i = 0; temp < val; i++)
+    temp.value = a.substr(0, i);
+    for (i -= 1; temp < val; i++)
     {
         result = temp;
         temp.value += a[i + 1];
@@ -240,9 +242,10 @@ number number::operator%(number val)
         return *this;
     int n = a.length();
     int i, j, k;
+    i = val.get_value().length() - 1;
     number temp;
-    temp.value = a[0];
-    for (i = 0; temp < val; i++)
+    temp.value = a.substr(0, i);
+    for (i -= 1; temp < val; i++)
     {
         result = temp;
         temp.value += a[i + 1];

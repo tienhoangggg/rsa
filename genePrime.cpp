@@ -9,12 +9,10 @@ X pow(X a, X b, X n)
     while (b > 0)
     {
         if (!b.mod2())
-            result = result * a;
+            result = result * a % n;
         b = b / 2;
-        a = a * a;
-        a = a % n;
+        a = a * a % n;
     }
-    result = result % n;
     return result;
 }
 
@@ -47,7 +45,7 @@ bool Check_miller(X n, int k)
     X range = n - 2;
     while (k--)
     {
-        X a = X(rand()) % (n - 2) + 2;
+        X a = X(rand()) % (1) + 2;
         if (!test(s, d, n, a))
             return false;
     }
@@ -84,16 +82,10 @@ X generateBigPrime(int k, int bits)
     {
         _bin = randomOddNum(bits);
         X _num = binToNum(_bin);
+        cout<<".";
         if (Check_miller(_num, k))
         {
             return _num;
         }
     }
-}
-
-int main()
-{
-    srand(time(NULL));
-    X p = generateBigPrime(5, 512);
-    cout << p.get_value() << endl;
 }
