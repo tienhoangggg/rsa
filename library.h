@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+#include <time.h>
+#include <random>
 #include <string>
 #include <vector>
 using namespace std;
@@ -26,3 +28,6 @@ public:
     number operator/(number);
     number operator%(number);
 };
+typedef number X;
+X generateBigPrime(int k, int bits);
+X inverse(X a, X b);

@@ -134,6 +134,32 @@ number number::operator-(number val)
     number result;
     string a = this->value;
     string b = val.value;
+    if (a[0] == '-' && b[0] != '-')
+    {
+        a.erase(a.begin());
+        result = number(a) + number(b);
+        result.value = '-' + result.value;
+        return result;
+    }
+    else if (a[0] != '-' && b[0] == '-')
+    {
+        b.erase(b.begin());
+        result = number(a) + number(b);
+        return result;
+    }
+    else if (a[0] == '-' && b[0] == '-')
+    {
+        a.erase(a.begin());
+        b.erase(b.begin());
+        result = number(b) - number(a);
+        return result;
+    }
+    if (*this < val)
+    {
+        result = number(b) - number(a);
+        result.value = '-' + result.value;
+        return result;
+    }
     int carry = 0;
     int i = a.length() - 1;
     int j = b.length() - 1;
@@ -171,6 +197,12 @@ number number::operator*(number val)
     number result;
     string a = this->value;
     string b = val.value;
+    if ((a[0] == '-' && b[0] != '-') || (a[0] != '-' && b[0] == '-'))
+        result.value = "-";
+    if (a[0] == '-')
+        a.erase(a.begin());
+    if (b[0] == '-')
+        b.erase(b.begin());
     int carry = 0;
     int n = a.length() - 1;
     int m = b.length() - 1;

@@ -1,7 +1,4 @@
 #include "library.h"
-#include <time.h>
-#include <random>
-typedef number X;
 
 X pow(X a, X b, X n)
 {
@@ -45,7 +42,7 @@ bool Check_miller(X n, int k)
     X range = n - 2;
     while (k--)
     {
-        X a = X(rand()) % (1) + 2;
+        X a = X(rand()) % (n-2) + 2;
         if (!test(s, d, n, a))
             return false;
     }
@@ -78,14 +75,13 @@ X binToNum(vector<int> num)
 X generateBigPrime(int k, int bits)
 {
     vector<int> _bin;
+    X _num;
     while (1)
     {
         _bin = randomOddNum(bits);
-        X _num = binToNum(_bin);
-        cout<<".";
+        _num = binToNum(_bin);
         if (Check_miller(_num, k))
-        {
             return _num;
-        }
+        cout<<".";
     }
 }
