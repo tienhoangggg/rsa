@@ -10,11 +10,10 @@ using namespace std;
 class number
 {
 private:
-	string value;
+	vector<int> value;
 
 public:
-	number() { value = ""; }
-	number(string);
+	number() {}
 	number(int);
 	string get_value();
 	bool operator<(number);
@@ -30,5 +29,6 @@ public:
 	number operator%(number);
 };
 typedef number X;
+#define base 1000000;
 void generateBigPrime(int k, int bits, vector<X> *primes, int);
 X inverse(X a, X b);
