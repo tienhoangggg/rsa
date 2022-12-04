@@ -22,7 +22,7 @@ number::number(vector<int> val, bool sign = true)
 	sign = sign;
 }
 
-void number::handle()
+void number::fix()
 {
 	while (!value.empty() && value[0] == 0)
 		value.erase(value.begin());
@@ -35,18 +35,18 @@ string number::get_value()
 		s += "-";
 	for (int i = 0; i < value.size(); i++)
 	{
-		// if (i != 0)
-		// {
-		// 	int temp = value[i];
-		// 	int count = 0;
-		// 	while (temp > 0)
-		// 	{
-		// 		temp /= 10;
-		// 		count++;
-		// 	}
-		// 	for (int j = 0; j < 4 - count; j++)
-		// 		s += "0";
-		// }
+		if (i != 0)
+		{
+			int temp = value[i];
+			int count = 0;
+			while (temp > 0)
+			{
+				temp /= 10;
+				count++;
+			}
+			for (int j = 0; j < 4 - count; j++)
+				s += "0";
+		}
 		s += to_string(value[i]);
 	}
 	if (s == "")
@@ -213,7 +213,7 @@ number number::operator-(number val)
 		i--;
 		j--;
 	}
-	result.handle();
+	result.fix();
 	return result;
 }
 
@@ -242,7 +242,7 @@ number number::operator*(number val)
 		temp[i] %= base;
 	}
 	result.value = temp;
-	result.handle();
+	result.fix();
 	return result;
 }
 
@@ -253,7 +253,7 @@ number number::operator/(number val)
 	if (*this == 0 || val == 0 || *this < val)
 		return result;
 	int n = a.size();
-	int i, j, k;
+	int i, j;
 	for (i = 0; result < val; i++)
 	{
 		result.value.push_back(a[i]);
@@ -263,16 +263,40 @@ number number::operator/(number val)
 	vector<int> v(n, 0);
 	for (j = i; j < n; j++)
 	{
-		result.handle();
+		result.fix();
 		result.value.push_back(a[j]);
-		for (k = 0; val <= result; k++)
+		if (result < val)
 		{
-			result = result - val;
+			v[j] = 0;
 		}
-		v[j] = k;
+		else
+		{
+			int k, l = 0, r = base;
+			number temp, temp1;
+			temp1 = result - val;
+			while (l <= r)
+			{
+				k = (r - l) / 2 + l;
+				temp = val * k;
+				if (temp <= temp1)
+				{
+					l = k + 1;
+				}
+				else if (temp > result)
+				{
+					r = k - 1;
+				}
+				else
+				{
+					v[j] = k;
+					result = result - temp;
+					break;
+				}
+			}
+		}
 	}
 	result.value = v;
-	result.handle();
+	result.fix();
 	return result;
 }
 
@@ -294,13 +318,33 @@ number number::operator%(number val)
 	i--;
 	for (j = i; j < n; j++)
 	{
-		result.handle();
+		result.fix();
 		result.value.push_back(a[j]);
-		for (k = 0; val <= result; k++)
+		if (!(result < val))
 		{
-			result = result - val;
+			int k, l = 0, r = base;
+			number temp, temp1;
+			temp1 = result - val;
+			while (l <= r)
+			{
+				k = (r - l) / 2 + l;
+				temp = val * k;
+				if (temp <= temp1)
+				{
+					l = k + 1;
+				}
+				else if (temp > result)
+				{
+					r = k - 1;
+				}
+				else
+				{
+					result = result - temp;
+					break;
+				}
+			}
 		}
 	}
-	result.handle();
+	result.fix();
 	return result;
 }

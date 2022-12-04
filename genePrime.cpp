@@ -7,13 +7,9 @@ X pow(X a, X m, X n)
 	{
 		if (!m.mod2())
 			result = result * a % n;
-			// cout<<"flag1"<<endl;
 		m = m / 2;
-		// cout<<"flag2"<<endl;
 		a = a * a;
-		// cout<<"flag3"<<endl;
-		a = a%n;
-		// cout<<m.get_value()<<" "<<a.get_value()<<" "<<result.get_value()<<endl;
+		a = a % n;
 	}
 	return result;
 }
@@ -21,7 +17,6 @@ X pow(X a, X m, X n)
 bool test(int s, X m, X n, X a)
 {
 	X p = pow(a, m, n);
-	// cout<<p.get_value()<<endl;
 	if (p == 1)
 		return true;
 	a = n - 1;
@@ -30,7 +25,6 @@ bool test(int s, X m, X n, X a)
 		if (p == a)
 			return true;
 		p = p * p % n;
-		// cout<<p.get_value()<<endl;
 	}
 	return false;
 }
@@ -48,7 +42,6 @@ bool Check_miller(X n, int k)
 	while (k--)
 	{
 		X a = X(rand()) % (n - 2) + 2;
-		// cout<<s<<" "<<d.get_value()<<" "<<a.get_value()<<endl;
 		if (!test(s, d, n, a))
 			return false;
 	}
@@ -88,6 +81,6 @@ void generateBigPrime(int k, int bits, vector<X> *prime, int stateRand)
 			prime->push_back(_num);
 			return;
 		}
-		cout<<".";
+		cout << ".";
 	}
 }

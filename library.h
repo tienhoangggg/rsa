@@ -11,7 +11,7 @@ class number
 {
 private:
 	vector<int> value;
-	void handle();
+	void fix();
 
 public:
 	bool sign = true;
@@ -35,4 +35,3 @@ typedef number X;
 #define base 10000
 void generateBigPrime(int k, int bits, vector<X> *primes, int);
 X inverse(X a, X b);
-bool Check_miller(X n, int k);
