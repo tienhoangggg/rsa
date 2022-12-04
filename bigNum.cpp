@@ -11,7 +11,7 @@ number::number(int val)
 	}
 	while (val > 0)
 	{
-		value.push_back(val % base);
+		value.insert(value.begin(), val % base);
 		val /= base;
 	}
 }
@@ -35,18 +35,18 @@ string number::get_value()
 		s += "-";
 	for (int i = 0; i < value.size(); i++)
 	{
-		if (i != 0)
-		{
-			int temp = value[i];
-			int count = 0;
-			while (temp > 0)
-			{
-				temp /= 10;
-				count++;
-			}
-			for (int j = 0; j < 4 - count; j++)
-				s += "0";
-		}
+		// if (i != 0)
+		// {
+		// 	int temp = value[i];
+		// 	int count = 0;
+		// 	while (temp > 0)
+		// 	{
+		// 		temp /= 10;
+		// 		count++;
+		// 	}
+		// 	for (int j = 0; j < 4 - count; j++)
+		// 		s += "0";
+		// }
 		s += to_string(value[i]);
 	}
 	if (s == "")
@@ -258,11 +258,12 @@ number number::operator/(number val)
 	{
 		result.value.push_back(a[i]);
 	}
-	result.value.pop_back();
 	i--;
+	result.value.pop_back();
 	vector<int> v(n, 0);
 	for (j = i; j < n; j++)
 	{
+		result.handle();
 		result.value.push_back(a[j]);
 		for (k = 0; val <= result; k++)
 		{
@@ -293,6 +294,7 @@ number number::operator%(number val)
 	i--;
 	for (j = i; j < n; j++)
 	{
+		result.handle();
 		result.value.push_back(a[j]);
 		for (k = 0; val <= result; k++)
 		{
