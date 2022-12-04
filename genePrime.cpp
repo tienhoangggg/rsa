@@ -1,23 +1,27 @@
 #include "library.h"
 
-X pow(X a, X b, X n)
+X pow(X a, X m, X n)
 {
 	X result = 1;
-	while (b > 0)
+	while (m > 0)
 	{
-		if (!b.mod2())
+		if (!m.mod2())
 			result = result * a % n;
-		b = b / 2;
-		a = a * a % n;
+			// cout<<"flag1"<<endl;
+		m = m / 2;
+		// cout<<"flag2"<<endl;
+		a = a * a;
+		// cout<<"flag3"<<endl;
+		a = a%n;
+		// cout<<m.get_value()<<" "<<a.get_value()<<" "<<result.get_value()<<endl;
 	}
 	return result;
 }
 
 bool test(int s, X m, X n, X a)
 {
-	if (n == a)
-		return true;
 	X p = pow(a, m, n);
+	// cout<<p.get_value()<<endl;
 	if (p == 1)
 		return true;
 	a = n - 1;
@@ -26,6 +30,7 @@ bool test(int s, X m, X n, X a)
 		if (p == a)
 			return true;
 		p = p * p % n;
+		// cout<<p.get_value()<<endl;
 	}
 	return false;
 }
@@ -43,22 +48,11 @@ bool Check_miller(X n, int k)
 	while (k--)
 	{
 		X a = X(rand()) % (n - 2) + 2;
+		// cout<<s<<" "<<d.get_value()<<" "<<a.get_value()<<endl;
 		if (!test(s, d, n, a))
 			return false;
 	}
 	return true;
-}
-
-vector<int> randomOddNum(int bits, int stateRand)
-{
-	vector<int> _bin(bits, 0);
-	_bin[0] = 1;
-	_bin[bits - 1] = 1;
-	for (int i = 1; i < bits - 1; ++i)
-	{
-		_bin[i] = (rand() % stateRand) % 2;
-	}
-	return _bin;
 }
 
 X binToNum(vector<int> num)

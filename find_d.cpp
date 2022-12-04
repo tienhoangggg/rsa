@@ -12,7 +12,7 @@ X inverse(X a, X b)
 		x = x2, y = y2;
 		x2 = x3, y2 = y3;
 	}
-	while (x2.get_value()[0] == '-')
-		x2 = bb - x2.get_value().substr(1);
+	while (x2.sign == false)
+		x2 = x2 + bb;
 	return x2;
 }
