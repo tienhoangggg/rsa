@@ -2,7 +2,7 @@
 
 class number;
 
-number::number(int val)
+number::number(long long val)
 {
 	if (val < 0)
 	{
@@ -16,7 +16,7 @@ number::number(int val)
 	}
 }
 
-number::number(vector<int> val, bool sign = true)
+number::number(vector<long long> val, bool sign = true)
 {
 	value = val;
 	sign = sign;
@@ -37,14 +37,14 @@ string number::get_value()
 	{
 		if (i != 0)
 		{
-			int temp = value[i];
+			long long temp = value[i];
 			int count = 0;
 			while (temp > 0)
 			{
 				temp /= 10;
 				count++;
 			}
-			for (int j = 0; j < 4 - count; j++)
+			for (int j = 0; j < 9 - count; j++)
 				s += "0";
 		}
 		s += to_string(value[i]);
@@ -137,20 +137,21 @@ bool number::mod2()
 number number::operator=(number num)
 {
 	value = num.value;
+	sign = num.sign;
 	return *this;
 }
 
 number number::operator+(number val)
 {
 	number result;
-	vector<int> a = this->value;
-	vector<int> b = val.value;
+	vector<long long> a = this->value;
+	vector<long long> b = val.value;
 	int carry = 0;
 	int i = a.size() - 1;
 	int j = b.size() - 1;
 	while (i >= 0 || j >= 0)
 	{
-		int sum = carry;
+		long long sum = carry;
 		if (i >= 0)
 			sum += a[i];
 		if (j >= 0)
@@ -168,8 +169,8 @@ number number::operator+(number val)
 number number::operator-(number val)
 {
 	number result;
-	vector<int> a = this->value;
-	vector<int> b = val.value;
+	vector<long long> a = this->value;
+	vector<long long> b = val.value;
 	if (this->sign == false && val.sign != false)
 	{
 		result = number(a) + number(b);
@@ -197,7 +198,7 @@ number number::operator-(number val)
 	int j = b.size() - 1;
 	while (i >= 0 || j >= 0)
 	{
-		int minus = carry;
+		long long minus = carry;
 		if (i >= 0)
 			minus += a[i];
 		if (j >= 0)
@@ -220,17 +221,16 @@ number number::operator-(number val)
 number number::operator*(number val)
 {
 	number result;
-	vector<int> a = this->value;
-	vector<int> b = val.value;
+	vector<long long> a = this->value;
+	vector<long long> b = val.value;
 	if ((this->sign == false && val.sign != false) || (this->sign != false && val.sign == false))
 		result.sign = false;
-	int carry = 0;
 	int n = a.size();
 	int m = b.size();
-	vector<int> temp(n + m, 0);
+	vector<long long> temp(n + m, 0);
 	for (int i = n; i > 0; i--)
 	{
-		int temp1 = a[i - 1];
+		long long temp1 = a[i - 1];
 		for (int j = m; j > 0; j--)
 		{
 			temp[i + j - 1] += temp1 * b[j - 1];
@@ -246,7 +246,7 @@ number number::operator*(number val)
 number number::operator/(number val)
 {
 	number result;
-	vector<int> a = this->value;
+	vector<long long> a = this->value;
 	if (*this == 0 || val == 0 || *this < val)
 		return result;
 	int n = a.size();
@@ -257,10 +257,9 @@ number number::operator/(number val)
 	}
 	i--;
 	result.value.pop_back();
-	vector<int> v(n, 0);
+	vector<long long> v(n, 0);
 	for (j = i; j < n; j++)
 	{
-		result.fix();
 		result.value.push_back(a[j]);
 		if (result < val)
 		{
@@ -268,7 +267,7 @@ number number::operator/(number val)
 		}
 		else
 		{
-			int k, l = 0, r = base;
+			long long k, l = 0, r = base;
 			number temp, temp1;
 			temp1 = result - val;
 			while (l <= r)
@@ -300,13 +299,13 @@ number number::operator/(number val)
 number number::operator%(number val)
 {
 	number result;
-	vector<int> a = this->value;
+	vector<long long> a = this->value;
 	if (*this == 0 || val == 0)
 		return result;
 	if (*this < val)
 		return *this;
 	int n = a.size();
-	int i, j, k;
+	int i, j;
 	for (i = 0; result < val; i++)
 	{
 		result.value.push_back(a[i]);
@@ -315,11 +314,10 @@ number number::operator%(number val)
 	i--;
 	for (j = i; j < n; j++)
 	{
-		result.fix();
 		result.value.push_back(a[j]);
 		if (!(result < val))
 		{
-			int k, l = 0, r = base;
+			long long k, l = 0, r = base;
 			number temp, temp1;
 			temp1 = result - val;
 			while (l <= r)

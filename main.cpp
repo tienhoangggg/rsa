@@ -13,15 +13,21 @@ int main()
 		thread t(generateBigPrime, 2, bits, primes, i + 1);
 		t.detach();
 	}
+flag:;
 	while (primes->size() < 2)
 		;
-	cout << "Done\n\nKeys generated\n";
-	X p = primes[0][0], q = primes[0][1];
-	X n = p * q;
-	X phi = (p - 1) * (q - 1);
-	X e = 65537;
-	X d = inverse(e, phi);
-	cout << "n = " << n.get_value() << endl;
-	cout << "e = " << e.get_value() << endl;
-	cout << "d = " << d.get_value() << endl;
+	try
+	{
+		X p = primes->at(0);
+		X q = primes->at(1);
+		X n = p * q;
+		X phi = (p - 1) * (q - 1);
+		X e = 65537;
+		X d = inverse(e, phi);
+		cout << "Done\n\nKeys generated\nn = " << n.get_value() << "\ne = " << e.get_value() << "\nd = " << d.get_value();
+	}
+	catch (const std::exception &e)
+	{
+		goto flag;
+	}
 }

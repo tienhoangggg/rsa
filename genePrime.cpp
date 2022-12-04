@@ -8,8 +8,7 @@ X pow(X a, X m, X n)
 		if (!m.mod2())
 			result = result * a % n;
 		m = m / 2;
-		a = a * a;
-		a = a % n;
+		a = a * a % n;
 	}
 	return result;
 }
