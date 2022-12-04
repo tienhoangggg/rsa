@@ -228,18 +228,15 @@ number number::operator*(number val)
 	int n = a.size();
 	int m = b.size();
 	vector<int> temp(n + m, 0);
-	for (int i = 1; i <= n; i++)
+	for (int i = n; i > 0; i--)
 	{
 		int temp1 = a[i - 1];
-		for (int j = 1; j <= m; j++)
+		for (int j = m; j > 0; j--)
 		{
 			temp[i + j - 1] += temp1 * b[j - 1];
+			temp[i + j - 2] += temp[i + j - 1] / base;
+			temp[i + j - 1] %= base;
 		}
-	}
-	for (int i = n + m - 1; i > 0; i--)
-	{
-		temp[i - 1] += temp[i] / base;
-		temp[i] %= base;
 	}
 	result.value = temp;
 	result.fix();
