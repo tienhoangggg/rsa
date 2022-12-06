@@ -2,11 +2,20 @@
 
 int main()
 {
-	int bits;
-	cout << "Enter the number of bits: ";
-	cin >> bits;
-	bits /= 2;
-	cout << "generating prime number:\n";
+	int bits, choice;
+	cout << "+=== RSA KEY GENERATOR ===+" << endl;
+	cout << "| 1. 512 bits             |" << endl;
+	cout << "| 2. 1024 bits            |" << endl;
+	cout << "| 3. 2048 bits            |" << endl;
+	cout << "+=========================+" << endl;
+	cout << "Enter your choice: ";
+	cin >> choice;
+	
+	choice = 512 * pow(2, choice - 1);
+	bits = choice/2;
+	cout << "RSA key - " << bits * 2 << endl;
+	cout << "generating prime number " << bits << ": \n";
+	
 	vector<X> *primes = new vector<X>();
 	for (int i = 0; i < 8; i++)
 	{
