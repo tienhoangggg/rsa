@@ -80,6 +80,5 @@ void generateBigPrime(int k, int bits, vector<X> *prime, int stateRand)
 			prime->push_back(_num);
 			return;
 		}
-		cout << ".";
 	}
 }
