@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <time.h>
+#include <math.h>
 #include <random>
 #include <string>
 #include <vector>
