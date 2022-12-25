@@ -19,6 +19,7 @@ public:
 	number() {}
 	number(long long);
 	number(vector<long long>, bool);
+	number(string);
 	string get_value();
 	bool operator<(number);
 	bool operator>(number);
