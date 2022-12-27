@@ -3,12 +3,7 @@
 #include "bigNum.cpp"
 #include "find_d.cpp"
 
-
-
-int main()
-{
-	int bits;
-	cin >> bits;
+vector<X> generateKey(int bits){
 	bits /= 2;
 	cout << "RSA key - " << bits * 2 << endl;
 	cout << "generating prime number " << bits << ": \n";
@@ -19,78 +14,96 @@ int main()
 		thread t(generateBigPrime, 5, bits, primes, i + 1);
 		t.detach();
 	}
-flag:;
-    X p, q, n, phi, e, d;
+flag:;    
+    vector<X> res(3);
 	while (primes->size() < 2);
 	try
 	{
-	    p = primes->at(0);
-		q = primes->at(1);
-		n = p * q;
-		phi = (p - 1) * (q - 1);
-		e = 65537;
-		d = inverse(e, phi);
-
+	    X p = primes->at(0);
+		X q = primes->at(1);
+		X n = p * q;
+		X phi = (p - 1) * (q - 1);
+		X e = 65537;
+		X d = inverse(e, phi);
+        res.push_back(n);
+        res.push_back(e);
+        res.push_back(d);
 		cout << "Done\n\nKeys generated\nn = " << n.get_value() << "\ne = " << e.get_value() << "\nd = " << d.get_value() << endl;
 	}
 	catch (const std::exception &e)
 	{
 		goto flag;
 	}
+    return res;
+}
+
+int main()
+{
+    int bits;
+    vector<X> key(3);
+    X n, e, d;
 
     while(1){
-        int a;
-        cout << "enter: ";
-        cin >> a;
-
-        if(a == 1){
-            fstream f;
-            string pl;
-            f.open("plain-text.txt", ios::in);
-            while(!f.eof()){
-            getline(f, pl);
+        cout << "+========== RSA KEY =========+" << endl;
+        cout << "| 1. Generate key            |" << endl;
+        cout << "| 2. Input key               |" << endl;
+        cout << "| 0. Exit                    |" << endl;
+        cout << "+============================+" << endl;
+        int choice;
+        cin >> choice;
+        if(choice == 1){
+            cout << "Enter bits: ";
+            cin >> bits;
+            key = generateKey(bits);
+            for(auto i : key){
+                cout << i.get_value() << endl;
             }
-            f.close();
+            cout << key[0].get_value() << endl;
+            cout << key[1].get_value() << endl;
+            cout << key[2].get_value() << endl;
 
-            cout << endl;
-            f.open("cypher-text.txt", ios::out);
-            for(auto& c : pl){
-                X r = pow(X(c), e, n);
-                cout << r.get_value() << endl;
-                
-                f << r.get_value() << endl;
-            }
-            f.close();
+        }
+        else if(choice == 2){
         }
         else{
-            string l;
-            fstream out, in;
-            out.open("plain-text.txt", ios::out | ios::app);
-            in.open("cypher-text.txt", ios::in);
-            while(!in.eof()){
-                getline(in, l);
-                if (l == ""){
-                    continue;
-                }
-                X t(l);
-                
-                X r = pow(t, d, n);
-                cout << r.get_value() << endl;
-                
-                cout << stoi(r.get_value()) << endl;
-                
-                out << char(stoi(r.get_value())) << endl;
-            }
-            out.close();
-            in.close();
+            break;
+        }
+        while(1){
+            cout << "+====== Encrypt/Decrypt =====+" << endl;
+            cout << "| 1. Encrypt                 |" << endl;
+            cout << "| 2. Decrypt                 |" << endl;
+            cout << "| 0. Exit                    |" << endl;
+            cout << "+============================+" << endl;
 
+            int _choice;
+            cin >> _choice;
+            if(_choice == 1){
+                string pText, cText, tmp;
+                fstream in, out;
+                cout << "Enter the path to your plaintext file: ";
+                cin >> pText;
+                cout << "Enter the path to your cypher file: ";
+                cin >> cText;
+
+                in.open(pText, ios::in);
+                out.open(cText, ios::out | ios::app);
+                while (!in.eof()){
+                    getline(in, tmp);
+                    for(auto& c:tmp){
+                        X re = pow(X(c), e, n);
+                        out << re.get_value() << endl;
+                    }
+
+                }
+
+            }
+            else if(_choice == 2){
+
+            }
+            else{
+                break;
+            }
         }
     }
-    
-    // string s = "123900000000123456789";
-    // X a(s);
-    // X b = a + X(1);
-    // cout << endl << b.get_value();
-
 	return 0;
 }
