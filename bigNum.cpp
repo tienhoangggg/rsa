@@ -25,6 +25,9 @@ number::number(vector<long long> val, bool sign = true)
 number::number(string s){
 	int _n = s.length();
 	int du = _n % 9;
+	if(du != 0){
+		value.push_back(stoll(s.substr(0, du)));
+	}
 	value.push_back(stoll(s.substr(0, du)));
     	for(int i = du; i < _n; i += 9){
         	value.push_back(stoll(s.substr(i, 9)));
