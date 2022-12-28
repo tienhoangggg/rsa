@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <thread>
+#include <fstream>
 using namespace std;
 
 class number

@@ -1,8 +1,7 @@
 {
 	"files.associations": {
+		"iosfwd": "cpp",
 		"iostream": "cpp",
-		"thread": "cpp",
-		"cstddef": "cpp",
-		"functional": "cpp"
+		"istream": "cpp"
 	}
 }
